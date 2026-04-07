@@ -10,6 +10,37 @@ The Laundry Shop Management System is a modern web-based application designed to
 - **Backend:** Node.js with Express.js
 - **Database:** MySQL
 
+## Getting Started
+
+### Prerequisites
+- Node.js (LTS Version)
+- MySQL Server
+- Git
+
+### Installation
+
+1. **Clone the repository:**
+   ```powershell
+   git clone https://github.com/JustineSalinas/Laundry-Shop-Management-System.git
+   cd Laundry-Shop-Management-System
+   ```
+
+2. **Install frontend dependencies:**
+   ```powershell
+   cd client
+   npm install
+   ```
+
+3. **Install backend dependencies:**
+   ```powershell
+   cd ../server
+   npm install
+   ```
+
+4. **Database Setup:**
+   - Create a database named `laundry_db`.
+   - Match the MySQL credentials in `server/config/` (once configured).
+
 ## Team Members & Roles (Minions nila si Zallen - BSIT 2-C)
 
 - **Adrian Justin Salinas** – Project Manager
