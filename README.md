@@ -1,8 +1,8 @@
-# Laundry Shop Management System 🧺
+# Laundry Shop Management System
 
 ## Project Description
 
-The Laundry Shop Management System is a modern web-based application designed to help small laundry businesses manage customer transactions efficiently. It replaces manual notebook recording with an organized digital platform that computes costs, tracks order and payment statuses, and securely stores records.
+The Laundry Shop Management System is a modern web-based application designed to help small laundry businesses manage customer transactions efficiently.
 
 **Tech Stack:**
 
