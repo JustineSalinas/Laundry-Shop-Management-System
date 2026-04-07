@@ -13,25 +13,29 @@ The Laundry Shop Management System is a modern web-based application designed to
 ## Getting Started
 
 ### Prerequisites
-- Node.js (LTS Version)
+
+- Node.js
 - MySQL Server
 - Git
 
 ### Installation
 
 1. **Clone the repository:**
+
    ```powershell
    git clone https://github.com/JustineSalinas/Laundry-Shop-Management-System.git
    cd Laundry-Shop-Management-System
    ```
 
 2. **Install frontend dependencies:**
+
    ```powershell
    cd client
    npm install
    ```
 
 3. **Install backend dependencies:**
+
    ```powershell
    cd ../server
    npm install
