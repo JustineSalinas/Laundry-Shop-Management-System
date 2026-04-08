@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,10 +18,9 @@ const Login = () => {
         password
       });
       console.log('Login successful:', response.data);
-      // Save token (we can integrate better state management later)
+      // Save token 
       localStorage.setItem('token', response.data.token);
-      alert('Login Successful!');
-      // TODO: Redirect to Dashboard
+      navigate('/dashboard');
     } catch (error) {
       setErrorMsg(error.response?.data?.message || 'Invalid login credentials.');
     }
