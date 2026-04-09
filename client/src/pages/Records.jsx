@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Layout from '../components/Layout';
 import EditTransactionModal from '../components/EditTransactionModal';
+import ReceiptModal from '../components/ReceiptModal';
 
 const Records = () => {
     const [transactions, setTransactions] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const [printTx, setPrintTx] = useState(null);
 
     const fetchTransactions = async () => {
         try {
@@ -100,12 +102,21 @@ const Records = () => {
                                                 </span>
                                             </td>
                                             <td className="p-4 text-right pr-6">
-                                                <button 
-                                                    onClick={() => setSelectedTransaction(tx)}
-                                                    className="px-4 py-2 bg-primary-fixed/20 text-primary hover:bg-primary-fixed/40 font-bold rounded-lg text-xs transition-colors"
-                                                >
-                                                    View / Edit
-                                                </button>
+                                                <div className="flex items-center justify-end space-x-2">
+                                                    <button 
+                                                        onClick={() => setPrintTx(tx)}
+                                                        className="w-8 h-8 flex items-center justify-center bg-surface-container-high text-secondary hover:bg-tertiary/20 hover:text-tertiary rounded-full transition-colors"
+                                                        title="Print Receipt"
+                                                    >
+                                                        <span className="material-symbols-outlined text-[16px]">receipt_long</span>
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => setSelectedTransaction(tx)}
+                                                        className="px-4 py-1.5 bg-primary-fixed/20 text-primary hover:bg-primary-fixed/40 font-bold rounded-lg text-xs transition-colors"
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))
@@ -121,6 +132,13 @@ const Records = () => {
                     transaction={selectedTransaction} 
                     onClose={() => setSelectedTransaction(null)} 
                     onSuccess={handleTransactionUpdated} 
+                />
+            )}
+
+            {printTx && (
+                <ReceiptModal 
+                    transaction={printTx} 
+                    onClose={() => setPrintTx(null)} 
                 />
             )}
         </Layout>

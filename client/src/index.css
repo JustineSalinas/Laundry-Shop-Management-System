@@ -12,3 +12,40 @@ body {
   margin: 0;
   padding: 0;
 }
+
+/* =========================================
+   NATIVE PRINT STYLES
+   ========================================= */
+@media print {
+  /* Aggressively hide EVERYTHING by default using tailwind print:hidden when possible */
+  body, html {
+    background: white !important;
+    color: black !important;
+    height: auto !important;
+  }
+
+  body::before {
+    display: none !important;
+  }
+
+  /* Hide common layout wrappers */
+  aside, nav, .hide-on-print {
+    display: none !important;
+  }
+
+  /* Force modals to expand and drop backdrop */
+  .modal-overlay {
+    background: none !important;
+    position: static !important;
+  }
+
+  .modal-content {
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Ensure the printed container occupies exact top left */
+  @page {
+    margin: 0;
+  }
+}
