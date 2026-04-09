@@ -41,7 +41,7 @@ const EditTransactionModal = ({ transaction, onClose, onSuccess }) => {
                 payment_status: paymentStatus
             };
 
-            await axios.put(`https://dazzlingly-unemerged-sean.ngrok-free.dev/api/transactions/${transaction.id}`, payload);
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/transactions/${transaction.id}`, payload);
             onSuccess();
         } catch (error) {
             setErrorMsg(error.response?.data?.message || 'Failed to update transaction');
@@ -53,7 +53,7 @@ const EditTransactionModal = ({ transaction, onClose, onSuccess }) => {
         if (!window.confirm('Are you sure you want to permanently delete this record?')) return;
         setIsLoading(true);
         try {
-            await axios.delete(`https://dazzlingly-unemerged-sean.ngrok-free.dev/api/transactions/${transaction.id}`);
+            await axios.delete(`${import.meta.env.VITE_API_URL}/api/transactions/${transaction.id}`);
             onSuccess();
         } catch (error) {
             setErrorMsg(error.response?.data?.message || 'Failed to delete transaction');

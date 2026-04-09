@@ -52,7 +52,7 @@ const StatusMonitoring = () => {
     
     const fetchTransactions = async () => {
         try {
-            const res = await axios.get('https://dazzlingly-unemerged-sean.ngrok-free.dev/api/transactions');
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/transactions`);
             setTransactions(res.data);
         } catch (error) {
             console.error('Error fetching transactions:', error);
@@ -71,7 +71,7 @@ const StatusMonitoring = () => {
                 ...tx,
                 [field]: value
             };
-            await axios.put(`https://dazzlingly-unemerged-sean.ngrok-free.dev/api/transactions/${tx.id}`, payload);
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/transactions/${tx.id}`, payload);
             fetchTransactions(); 
         } catch (error) {
             console.error('Failed to update status', error);

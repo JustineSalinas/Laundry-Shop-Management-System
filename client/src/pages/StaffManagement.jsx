@@ -19,7 +19,7 @@ const StaffManagement = () => {
     const fetchStaff = async () => {
         try {
             setErrorMsg('');
-            const res = await axios.get('https://dazzlingly-unemerged-sean.ngrok-free.dev/api/staff', getAuthHeaders());
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/staff`, getAuthHeaders());
             setStaffList(res.data);
         } catch (error) {
             console.error('Error fetching staff:', error);
@@ -41,7 +41,7 @@ const StaffManagement = () => {
     const confirmDelete = async (id, username) => {
         if (!window.confirm(`Are you sure you want to permanently delete user "${username}"?`)) return;
         try {
-            await axios.delete(`https://dazzlingly-unemerged-sean.ngrok-free.dev/api/staff/${id}`, getAuthHeaders());
+            await axios.delete(`${import.meta.env.VITE_API_URL}/api/staff/${id}`, getAuthHeaders());
             fetchStaff();
         } catch (error) {
             alert('Failed to delete staff member: ' + (error.response?.data?.message || 'Server error'));
