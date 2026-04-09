@@ -16,11 +16,11 @@ const StaffModal = ({ staff, onClose, onSuccess, authHeaders }) => {
         e.preventDefault();
         setErrorMsg('');
 
-        // Password Validation: 8 chars, at least one letter and one number
+        // Password Validation: 8-20 chars, no spaces/dashes, at least one letter and one number
         if (password) {
-            const isValid = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/.test(password);
+            const isValid = /^(?=.*[a-zA-Z])(?=.*\d)[^\s-]{8,20}$/.test(password);
             if (!isValid) {
-                setErrorMsg('Password must be at least 8 characters and contain both letters and numbers.');
+                setErrorMsg('Password must be 8-20 characters, contain letters and numbers, and have no spaces or dashes.');
                 return;
             }
         }
@@ -86,7 +86,7 @@ const StaffModal = ({ staff, onClose, onSuccess, authHeaders }) => {
                         </label>
                         <div className="relative">
                             <input 
-                                type={showPassword ? "text" : "password"} required={!isEdit}
+                                type={showPassword ? "text" : "password"} required={!isEdit} maxLength={20}
                                 value={password} onChange={e => setPassword(e.target.value)}
                                 className="w-full px-4 pr-10 py-3 bg-surface-container-high border-none rounded-xl focus:ring-2 focus:ring-primary/20 text-sm font-medium text-on-surface"
                                 placeholder="*************"

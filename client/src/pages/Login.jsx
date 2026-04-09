@@ -97,7 +97,7 @@ const Login = () => {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  required
+                  required maxLength={20}
                 />
                 <button 
                   type="button"
