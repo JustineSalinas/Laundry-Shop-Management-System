@@ -4,6 +4,7 @@ import axios from 'axios';
 const StaffModal = ({ staff, onClose, onSuccess, authHeaders }) => {
     const [username, setUsername] = useState(staff?.username || '');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [role, setRole] = useState(staff?.role || 'staff');
     
     const [isLoading, setIsLoading] = useState(false);
@@ -14,6 +15,16 @@ const StaffModal = ({ staff, onClose, onSuccess, authHeaders }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMsg('');
+
+        // Password Validation: 8 chars, at least one letter and one number
+        if (password) {
+            const isValid = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/.test(password);
+            if (!isValid) {
+                setErrorMsg('Password must be at least 8 characters and contain both letters and numbers.');
+                return;
+            }
+        }
+
         setIsLoading(true);
 
         try {
@@ -73,12 +84,21 @@ const StaffModal = ({ staff, onClose, onSuccess, authHeaders }) => {
                         <label className="text-[11px] font-bold uppercase tracking-widest text-secondary px-1">
                             {isEdit ? 'New Password (Optional)' : 'Password *'}
                         </label>
-                        <input 
-                            type="password" required={!isEdit}
-                            value={password} onChange={e => setPassword(e.target.value)}
-                            className="w-full px-4 py-3 bg-surface-container-high border-none rounded-xl focus:ring-2 focus:ring-primary/20 text-sm font-medium text-on-surface"
-                            placeholder="*************"
-                        />
+                        <div className="relative">
+                            <input 
+                                type={showPassword ? "text" : "password"} required={!isEdit}
+                                value={password} onChange={e => setPassword(e.target.value)}
+                                className="w-full px-4 pr-10 py-3 bg-surface-container-high border-none rounded-xl focus:ring-2 focus:ring-primary/20 text-sm font-medium text-on-surface"
+                                placeholder="*************"
+                            />
+                            <button 
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors focus:outline-none"
+                            >
+                                <span className="material-symbols-outlined text-[18px]">{showPassword ? 'visibility_off' : 'visibility'}</span>
+                            </button>
+                        </div>
                     </div>
 
                     <div className="space-y-1.5">
