@@ -157,7 +157,7 @@ const EditTransactionModal = ({ transaction, onClose, onSuccess }) => {
                             <div className="w-1/2">
                                 <label className="text-[11px] font-bold uppercase tracking-widest text-secondary px-1 block mb-1">Weight (kg) *</label>
                                 <input 
-                                    type="number" step="0.1" min="0.1" required
+                                    type="number" step="0.1" min="0.1" max="100" required
                                     value={weight} onChange={e => setWeight(e.target.value)}
                                     className="w-full px-4 py-2 bg-surface-container-lowest border border-outline-variant/20 rounded-lg focus:ring-2 focus:ring-primary/20 text-lg font-black"
                                 />
@@ -166,7 +166,7 @@ const EditTransactionModal = ({ transaction, onClose, onSuccess }) => {
                             <div className="w-1/2">
                                 <label className="text-[11px] font-bold uppercase tracking-widest text-secondary px-1 block mb-1">Quantity *</label>
                                 <input 
-                                    type="number" step="1" min="1" required
+                                    type="number" step="1" min="1" max="50" required
                                     value={quantity} onChange={e => setQuantity(e.target.value)}
                                     className="w-full px-4 py-2 bg-surface-container-lowest border border-outline-variant/20 rounded-lg focus:ring-2 focus:ring-primary/20 text-lg font-black"
                                 />
