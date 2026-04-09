@@ -7,10 +7,32 @@ import './Dashboard.css';
 const Dashboard = () => {
     const [transactions, setTransactions] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [stats, setStats] = useState({ active: 0, ready: 0, completed: 0, revenue: 0 });
 
     const fetchTransactions = async () => {
         try {
             const res = await axios.get('https://dazzlingly-unemerged-sean.ngrok-free.dev/api/transactions');
+            
+            // Calculate Analytics
+            const today = new Date().toISOString().split('T')[0];
+            let activeCount = 0;
+            let readyCount = 0;
+            let completedCount = 0;
+            let dailyRevenue = 0;
+
+            res.data.forEach(tx => {
+                if (tx.order_status === 'Pending' || tx.order_status === 'Processing') activeCount++;
+                if (tx.order_status === 'Ready') readyCount++;
+                if (tx.order_status === 'Completed') completedCount++;
+
+                const txDate = tx.created_at ? tx.created_at.split('T')[0] : '';
+                if (tx.payment_status === 'Paid' && txDate === today) {
+                    dailyRevenue += parseFloat(tx.total_cost || 0);
+                }
+            });
+
+            setStats({ active: activeCount, ready: readyCount, completed: completedCount, revenue: dailyRevenue });
+
             // Filter to show only active transactions on the main dashboard
             const activeOrders = res.data.filter(tx => 
                 tx.order_status === 'Pending' || tx.order_status === 'Processing'
@@ -48,6 +70,53 @@ const Dashboard = () => {
                         <span className="material-symbols-outlined text-lg">add_circle</span>
                         <span>New Order</span>
                     </button>
+                </section>
+
+                {/* Analytics Board */}
+                <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {/* Active Orders */}
+                    <div className="bg-surface-container-lowest border border-white/50 rounded-2xl p-6 shadow-[0_10px_30px_rgba(0,73,122,0.08)] flex items-center justify-between">
+                        <div>
+                            <p className="text-secondary text-xs font-bold uppercase tracking-wider mb-1">Active Orders</p>
+                            <h3 className="text-4xl font-black text-on-surface">{stats.active}</h3>
+                        </div>
+                        <div className="w-12 h-12 bg-primary-container rounded-full flex items-center justify-center text-primary shadow-inner">
+                            <span className="material-symbols-outlined text-[24px]">local_laundry_service</span>
+                        </div>
+                    </div>
+
+                    {/* Ready */}
+                    <div className="bg-surface-container-lowest border border-white/50 rounded-2xl p-6 shadow-[0_10px_30px_rgba(0,73,122,0.08)] flex items-center justify-between">
+                        <div>
+                            <p className="text-secondary text-xs font-bold uppercase tracking-wider mb-1">Ready for Pickup</p>
+                            <h3 className="text-4xl font-black text-tertiary">{stats.ready}</h3>
+                        </div>
+                        <div className="w-12 h-12 bg-tertiary-container rounded-full flex items-center justify-center text-tertiary shadow-inner">
+                            <span className="material-symbols-outlined text-[24px]">check_circle</span>
+                        </div>
+                    </div>
+
+                    {/* Completed */}
+                    <div className="bg-surface-container-lowest border border-white/50 rounded-2xl p-6 shadow-[0_10px_30px_rgba(0,73,122,0.08)] flex items-center justify-between">
+                        <div>
+                            <p className="text-secondary text-xs font-bold uppercase tracking-wider mb-1">Total Completed</p>
+                            <h3 className="text-4xl font-black text-secondary">{stats.completed}</h3>
+                        </div>
+                        <div className="w-12 h-12 bg-surface-container-high rounded-full flex items-center justify-center text-secondary shadow-inner">
+                            <span className="material-symbols-outlined text-[24px]">task_alt</span>
+                        </div>
+                    </div>
+
+                    {/* Revenue */}
+                    <div className="bg-surface-container-lowest border border-white/50 rounded-2xl p-6 shadow-[0_10px_30px_rgba(0,73,122,0.08)] flex items-center justify-between">
+                        <div>
+                            <p className="text-secondary text-xs font-bold uppercase tracking-wider mb-1">Daily Revenue</p>
+                            <h3 className="text-3xl font-black text-on-surface">₱{stats.revenue.toFixed(2)}</h3>
+                        </div>
+                        <div className="w-12 h-12 bg-primary-fixed rounded-full flex items-center justify-center text-primary shadow-inner">
+                            <span className="material-symbols-outlined text-[24px]">payments</span>
+                        </div>
+                    </div>
                 </section>
 
                 {/* Data Table */}
