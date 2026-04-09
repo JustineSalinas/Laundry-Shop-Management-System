@@ -36,7 +36,7 @@ const NewTransactionModal = ({ onClose, onSuccess }) => {
                 quantity: !isWeightBased ? parseInt(quantity, 10) : null
             };
 
-            await axios.post('http://localhost:5000/api/transactions', payload);
+            await axios.post('https://dazzlingly-unemerged-sean.ngrok-free.dev/api/transactions', payload);
             onSuccess();
         } catch (error) {
             setErrorMsg(error.response?.data?.message || 'Failed to create transaction');

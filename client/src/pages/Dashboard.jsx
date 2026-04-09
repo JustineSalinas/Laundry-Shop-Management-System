@@ -10,7 +10,7 @@ const Dashboard = () => {
 
     const fetchTransactions = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/transactions');
+            const res = await axios.get('https://dazzlingly-unemerged-sean.ngrok-free.dev/api/transactions');
             // Filter to show only active transactions on the main dashboard
             const activeOrders = res.data.filter(tx => 
                 tx.order_status === 'Pending' || tx.order_status === 'Processing'

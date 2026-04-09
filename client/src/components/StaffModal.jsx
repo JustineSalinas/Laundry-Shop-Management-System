@@ -21,10 +21,10 @@ const StaffModal = ({ staff, onClose, onSuccess, authHeaders }) => {
 
             if (isEdit) {
                 // For edit, password is intentionally optional on the backend
-                await axios.put(`http://localhost:5000/api/staff/${staff.id}`, payload, authHeaders);
+                await axios.put(`https://dazzlingly-unemerged-sean.ngrok-free.dev/api/staff/${staff.id}`, payload, authHeaders);
             } else {
                 if (!password) throw new Error("Password is required for new users");
-                await axios.post('http://localhost:5000/api/staff', payload, authHeaders);
+                await axios.post('https://dazzlingly-unemerged-sean.ngrok-free.dev/api/staff', payload, authHeaders);
             }
             onSuccess();
         } catch (error) {
