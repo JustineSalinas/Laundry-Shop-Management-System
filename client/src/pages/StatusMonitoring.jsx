@@ -31,7 +31,7 @@ const Column = ({ title, orders, statusColor, updateStatus }) => (
                         
                         <div className="flex space-x-2 border-t border-outline-variant/10 pt-3">
                             {tx.order_status === 'Pending' && (
-                                <button onClick={() => updateStatus(tx, 'order_status', 'Processing')} className="flex-1 bg-primary-container text-on-primary-container text-xs font-bold py-2 rounded-lg hover:brightness-95">Start Wash</button>
+                                <button onClick={() => updateStatus(tx, 'order_status', 'Processing')} className="flex-1 bg-primary-container text-on-primary-container text-xs font-bold py-2 rounded-lg hover:brightness-95">Start</button>
                             )}
                             {tx.order_status === 'Processing' && (
                                 <button onClick={() => updateStatus(tx, 'order_status', 'Ready')} className="flex-1 bg-secondary-container text-on-secondary-container text-xs font-bold py-2 rounded-lg hover:brightness-95">Mark Ready</button>

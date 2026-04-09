@@ -16,6 +16,7 @@ const NewTransactionModal = ({ onClose, onSuccess }) => {
     const [quantity, setQuantity] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
+    const [contactError, setContactError] = useState('');
 
     const isWeightBased = ['Wash', 'Wash and Dry', 'Fold'].includes(serviceType);
     const totalCost = isWeightBased 
@@ -25,6 +26,17 @@ const NewTransactionModal = ({ onClose, onSuccess }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMsg('');
+        setContactError('');
+
+        // PH number validation: must be 11 digits starting with 0
+        if (contactNumber) {
+            const digits = contactNumber.replace(/\D/g, '');
+            if (digits.length !== 11 || !digits.startsWith('0')) {
+                setContactError('Must be a valid 11-digit PH number (e.g. 09XX-XXX-XXXX)');
+                return;
+            }
+        }
+
         setIsLoading(true);
 
         try {
@@ -86,10 +98,11 @@ const NewTransactionModal = ({ onClose, onSuccess }) => {
                             <label className="text-[11px] font-bold uppercase tracking-widest text-secondary px-1">Contact Number</label>
                             <input 
                                 type="text"
-                                value={contactNumber} onChange={e => setContactNumber(e.target.value)}
-                                className="w-full px-4 py-3 bg-surface-container-high border-none rounded-xl focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all text-sm font-medium"
+                                value={contactNumber} onChange={e => { setContactNumber(e.target.value); setContactError(''); }}
+                                className={`w-full px-4 py-3 bg-surface-container-high border-none rounded-xl focus:ring-2 ${contactError ? 'ring-2 ring-error/50' : 'focus:ring-primary/20'} focus:bg-surface-container-lowest transition-all text-sm font-medium`}
                                 placeholder="09XX-XXX-XXXX"
                             />
+                            {contactError && <p className="text-error text-[11px] font-bold px-1 mt-1">{contactError}</p>}
                         </div>
                     </div>
 
