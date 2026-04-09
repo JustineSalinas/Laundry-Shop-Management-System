@@ -13,6 +13,8 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 const transactionRoutes = require('./routes/transactionRoutes');
 app.use('/api/transactions', transactionRoutes);
+const staffRoutes = require('./routes/staffRoutes');
+app.use('/api/staff', staffRoutes);
 
 const PORT = process.env.PORT || 5000;
 

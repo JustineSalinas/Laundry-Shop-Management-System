@@ -4,8 +4,11 @@ import { NavLink, useNavigate } from 'react-router-dom';
 const Sidebar = () => {
     const navigate = useNavigate();
 
+    const [role, setRole] = React.useState(localStorage.getItem('role') || 'staff');
+
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('role');
         navigate('/login');
     };
 
@@ -14,6 +17,10 @@ const Sidebar = () => {
         { path: '/records', icon: 'receipt_long', label: 'Records History' },
         { path: '/status', icon: 'timeline', label: 'Status Monitor' },
     ];
+
+    if (role === 'admin') {
+        navItems.push({ path: '/staff', icon: 'admin_panel_settings', label: 'Staff Management' });
+    }
 
     return (
         <aside className="w-64 bg-surface-container-lowest/80 backdrop-blur-md border-r border-white/20 shadow-sm flex flex-col h-full sticky top-0">

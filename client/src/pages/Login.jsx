@@ -18,8 +18,9 @@ const Login = () => {
         password
       });
       console.log('Login successful:', response.data);
-      // Save token 
+      // Save token & role
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('role', response.data.user.role);
       navigate('/dashboard');
     } catch (error) {
       setErrorMsg(error.response?.data?.message || 'Invalid login credentials.');
