@@ -69,3 +69,56 @@ exports.getTransactions = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+exports.updateTransaction = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { customer_name, contact_number, service_type, weight, quantity, order_status, payment_status } = req.body;
+        
+        if (!customer_name || !service_type) {
+            return res.status(400).json({ message: 'Customer name and service type are required.' });
+        }
+
+        let total_cost = 0;
+
+        // Recalculating Cost
+        if (service_type === 'Comforter') {
+            if (!quantity || quantity <= 0) return res.status(400).json({ message: 'Quantity is required for Comforters.' });
+            total_cost = quantity * RATES['Comforter'];
+        } else {
+            if (!weight || weight <= 0) return res.status(400).json({ message: 'Weight is required for this service.' });
+            total_cost = weight * RATES[service_type];
+        }
+
+        const query = `
+            UPDATE transactions 
+            SET customer_name=?, contact_number=?, service_type=?, weight=?, quantity=?, total_cost=?, order_status=?, payment_status=?
+            WHERE id=?
+        `;
+        const values = [customer_name, contact_number || null, service_type, weight || null, quantity || null, total_cost, order_status, payment_status, id];
+        
+        const [result] = await db.query(query, values);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Transaction not found' });
+        }
+
+        res.status(200).json({ message: 'Transaction updated successfully', total_cost });
+    } catch (err) {
+        console.error('Error updating transaction:', err);
+        res.status(500).json({ message: 'Failed to update transaction' });
+    }
+};
+
+exports.deleteTransaction = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const [result] = await db.query('DELETE FROM transactions WHERE id=?', [id]);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Transaction not found' });
+        }
+        res.status(200).json({ message: 'Transaction deleted successfully' });
+    } catch (err) {
+        console.error('Error deleting transaction:', err);
+        res.status(500).json({ message: 'Failed to delete transaction' });
+    }
+};

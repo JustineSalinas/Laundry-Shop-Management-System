@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 const RATES = {
@@ -14,21 +14,13 @@ const NewTransactionModal = ({ onClose, onSuccess }) => {
     const [serviceType, setServiceType] = useState('Wash and Dry');
     const [weight, setWeight] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [totalCost, setTotalCost] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
     const isWeightBased = ['Wash', 'Wash and Dry', 'Fold'].includes(serviceType);
-
-    useEffect(() => {
-        if (isWeightBased) {
-            const w = parseFloat(weight) || 0;
-            setTotalCost(w * RATES[serviceType]);
-        } else if (serviceType === 'Comforter') {
-            const q = parseInt(quantity, 10) || 0;
-            setTotalCost(q * RATES['Comforter']);
-        }
-    }, [serviceType, weight, quantity, isWeightBased]);
+    const totalCost = isWeightBased 
+        ? (parseFloat(weight) || 0) * RATES[serviceType] 
+        : (parseInt(quantity, 10) || 0) * RATES['Comforter'];
 
     const handleSubmit = async (e) => {
         e.preventDefault();

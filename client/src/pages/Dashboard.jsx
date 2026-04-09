@@ -1,39 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
 import NewTransactionModal from '../components/NewTransactionModal';
 import './Dashboard.css';
 
 const Dashboard = () => {
     const [transactions, setTransactions] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const navigate = useNavigate();
 
     const fetchTransactions = async () => {
         try {
             const res = await axios.get('http://localhost:5000/api/transactions');
-            setTransactions(res.data);
+            // Filter to show only active transactions on the main dashboard
+            const activeOrders = res.data.filter(tx => 
+                tx.order_status === 'Pending' || tx.order_status === 'Processing'
+            );
+            setTransactions(activeOrders);
         } catch (error) {
             console.error('Error fetching transactions:', error);
-            if (error.response?.status === 401) {
-                navigate('/login');
-            }
         }
     };
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            navigate('/login');
-        } else {
-            fetchTransactions();
-        }
-    }, [navigate]);
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        navigate('/login');
-    };
+        // eslint-disable-next-line
+        fetchTransactions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleTransactionAdded = () => {
         setIsModalOpen(false);
@@ -41,38 +33,13 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="bg-background min-h-screen font-body text-on-surface flex flex-col relative overflow-hidden">
-            {/* Background elements to match the unified aesthetics slightly scaled down */}
-            <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none">
-                <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(#00497a 0.5px, transparent 0.5px)', backgroundSize: '32px 32px' }}></div>
-                <div className="bokeh w-[600px] h-[600px] top-[-20%] left-[-10%] bg-primary"></div>
-                <div className="bokeh w-[500px] h-[500px] bottom-[-10%] right-[-10%] bg-tertiary"></div>
-            </div>
-
-            {/* Navbar */}
-            <header className="relative z-10 w-full bg-surface-container-lowest/80 backdrop-blur-md border-b border-white/20 shadow-sm px-8 py-4 flex justify-between items-center">
-                <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-primary-fixed rounded-full flex items-center justify-center shadow-inner">
-                        <span className="material-symbols-outlined text-primary text-2xl" data-icon="bubble_chart">bubble_chart</span>
-                    </div>
-                    <h1 className="text-xl font-black tracking-tighter text-on-surface">LaundryEase</h1>
-                </div>
-                <div className="flex items-center space-x-6">
-                    <button onClick={handleLogout} className="flex items-center space-x-2 text-sm font-semibold text-error hover:text-error-container transition-colors">
-                        <span className="material-symbols-outlined text-lg">logout</span>
-                        <span>Logout</span>
-                    </button>
-                </div>
-            </header>
-
-            {/* Main Content */}
-            <main className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-8 py-10 flex flex-col gap-8">
-                
+        <Layout>
+            <div className="flex flex-col gap-8">
                 {/* Header Section */}
                 <section className="flex justify-between items-end">
                     <div>
-                        <h2 className="text-3xl font-black mb-1">Transaction Management</h2>
-                        <p className="text-secondary text-sm font-medium">Overview of all active and completed laundry orders.</p>
+                        <h2 className="text-3xl font-black mb-1">Active Orders</h2>
+                        <p className="text-secondary text-sm font-medium">Overview of pending and processing laundry operations.</p>
                     </div>
                     <button 
                         onClick={() => setIsModalOpen(true)}
@@ -102,7 +69,7 @@ const Dashboard = () => {
                                 {transactions.length === 0 ? (
                                     <tr>
                                         <td colSpan="7" className="p-10 text-center text-secondary font-medium">
-                                            No transactions found. Click "New Order" to get started.
+                                            No active orders right now. Click "New Order" to get started.
                                         </td>
                                     </tr>
                                 ) : (
@@ -141,7 +108,7 @@ const Dashboard = () => {
                         </table>
                     </div>
                 </section>
-            </main>
+            </div>
 
             {/* Modal */}
             {isModalOpen && (
@@ -150,10 +117,7 @@ const Dashboard = () => {
                     onSuccess={handleTransactionAdded} 
                 />
             )}
-            
-             {/* Bottom signature line */}
-            <div className="mt-auto w-full h-[3px] bg-gradient-to-r from-transparent via-primary-fixed to-transparent opacity-30"></div>
-        </div>
+        </Layout>
     );
 };
 
