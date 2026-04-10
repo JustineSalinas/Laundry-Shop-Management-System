@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import './Sidebar.css';
 
 const Sidebar = () => {
     const navigate = useNavigate();
@@ -23,43 +24,39 @@ const Sidebar = () => {
     }
 
     return (
-        <aside className="w-64 bg-surface-container-lowest/80 backdrop-blur-md border-r border-white/20 shadow-sm flex flex-col h-full sticky top-0">
+        <aside className="sidebar-container">
             {/* Header / Brand */}
-            <div className="p-8 flex flex-col items-center border-b border-outline-variant/10">
-                <div className="w-12 h-12 bg-primary-fixed rounded-full flex items-center justify-center mb-4 shadow-inner">
-                    <span className="material-symbols-outlined text-primary text-3xl" data-icon="bubble_chart">bubble_chart</span>
+            <div className="sidebar-brand">
+                <div className="sidebar-logo">
+                    <span className="material-symbols-outlined" style={{ fontSize: '28px', color: '#0062a1' }}>bubble_chart</span>
                 </div>
-                <h1 className="text-xl font-black tracking-tighter text-on-surface">LaundryEase</h1>
-                <p className="text-xs text-secondary font-medium tracking-widest uppercase mt-1">Staff Portal</p>
+                <h1 className="sidebar-app-name">LaundryEase</h1>
+                <p className="sidebar-portal-label">STAFF PORTAL</p>
             </div>
 
             {/* Navigation Links */}
-            <nav className="flex-1 px-4 py-8 space-y-2">
+            <nav className="sidebar-nav">
                 {navItems.map((item) => (
                     <NavLink
                         key={item.path}
                         to={item.path}
                         className={({ isActive }) => 
-                            `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-bold text-sm ${
-                                isActive 
-                                    ? 'bg-primary-container/40 text-primary shadow-sm border border-primary/10' 
-                                    : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
-                            }`
+                            `sidebar-nav-item ${isActive ? 'sidebar-nav-item-active' : ''}`
                         }
                     >
-                        <span className="material-symbols-outlined">{item.icon}</span>
-                        <span>{item.label}</span>
+                        <span className="material-symbols-outlined sidebar-nav-icon">{item.icon}</span>
+                        <span className="sidebar-nav-label">{item.label}</span>
                     </NavLink>
                 ))}
             </nav>
 
             {/* Footer / Logout */}
-            <div className="p-6 border-t border-outline-variant/10">
+            <div className="sidebar-footer">
                 <button 
                     onClick={handleLogout} 
-                    className="w-full flex items-center justify-center space-x-2 text-sm font-bold text-error hover:bg-error-container/50 px-4 py-3 rounded-xl transition-colors"
+                    className="sidebar-logout-btn"
                 >
-                    <span className="material-symbols-outlined text-lg">logout</span>
+                    <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>logout</span>
                     <span>Sign Out</span>
                 </button>
             </div>

@@ -13,27 +13,56 @@ const Layout = ({ children }) => {
     }, [navigate]);
 
     return (
-        <div className="bg-background min-h-screen font-body text-on-surface flex relative overflow-hidden">
-            {/* Background elements to match the unified aesthetics slightly scaled down */}
-            <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none">
-                <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(#00497a 0.5px, transparent 0.5px)', backgroundSize: '32px 32px' }}></div>
-                <div className="bokeh w-[600px] h-[600px] top-[-20%] left-[-10%] bg-primary"></div>
-                <div className="bokeh w-[500px] h-[500px] bottom-[-10%] right-[-10%] bg-tertiary"></div>
+        <div style={{
+            display: 'flex',
+            minHeight: '100vh',
+            fontFamily: "'Inter', sans-serif",
+            color: '#171c1f',
+            position: 'relative',
+            overflow: 'hidden',
+            background: 'linear-gradient(135deg, #f6fafe 0%, #edf4fb 40%, #f0f4f8 100%)',
+        }}>
+            {/* Subtle background pattern */}
+            <div style={{
+                position: 'absolute',
+                inset: 0,
+                zIndex: 0,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+                userSelect: 'none',
+            }}>
+                <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    opacity: 0.015,
+                    backgroundImage: 'radial-gradient(#00497a 0.5px, transparent 0.5px)',
+                    backgroundSize: '32px 32px',
+                }}></div>
+                <div className="bokeh" style={{ width: '600px', height: '600px', top: '-15%', left: '-8%', background: '#0062a1' }}></div>
+                <div className="bokeh" style={{ width: '400px', height: '400px', bottom: '-10%', right: '-5%', background: '#23486f' }}></div>
             </div>
 
             {/* Sidebar Navigation */}
-            <div className="relative z-20">
+            <div style={{ position: 'relative', zIndex: 20 }}>
                 <Sidebar />
             </div>
 
             {/* Main Content Area */}
-            <main className="relative z-10 flex-1 overflow-y-auto h-screen">
-                <div className="w-full max-w-7xl mx-auto px-10 py-10">
+            <main style={{
+                position: 'relative',
+                zIndex: 10,
+                flex: 1,
+                overflowY: 'auto',
+                height: '100vh',
+            }}>
+                <div style={{
+                    width: '100%',
+                    maxWidth: '1280px',
+                    margin: '0 auto',
+                    padding: '36px 40px',
+                }}>
                     {children}
                 </div>
-                
-                {/* Bottom signature line */}
-                <div className="fixed bottom-0 left-64 w-[calc(100%-16rem)] h-[3px] bg-gradient-to-r from-transparent via-primary-fixed to-transparent opacity-30 z-30 pointer-events-none"></div>
             </main>
         </div>
     );
