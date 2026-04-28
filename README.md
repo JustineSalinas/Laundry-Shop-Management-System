@@ -1,4 +1,4 @@
-# 🧺 Laundry Shop Management System
+# 🧺 Laundry Ease | Laundry Shop Management System
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
@@ -6,7 +6,7 @@
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
-The **Laundry Shop Management System** is a modern web-based application designed to help small laundry businesses manage customer transactions, track laundry status, and operate efficiently.
+The **Laundry Ease** Management System is a modern web-based application designed to help small laundry businesses manage customer transactions, track laundry status, and operate efficiently.
 
 ---
 
