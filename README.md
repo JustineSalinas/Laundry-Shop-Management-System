@@ -117,5 +117,5 @@ Laundry-Shop-Management-System/
 - **Adrian Justin Salinas** – Project Manager
 - **Jedrik Jean Sayo** – Lead Developer
 - **Leighmarie Abigail Vicente** – Frontend Developer
-- **Alexandar Michael Tolosa** – Backend Developer
+- **Alexander Michael Tolosa** – Backend Developer
 - **Zallen Fritz Eslabra** – Documentation and Quality Assurance
